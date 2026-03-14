@@ -5,17 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ჩემო პატარა პრინცესა</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             margin: 0;
             padding: 0;
+            /* ფონი ფიქსირებულია და ავსებს 100%-ს */
             background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ffe4e1);
+            background-attachment: fixed;
+            height: 100vh;
+            width: 100vw;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             overflow: hidden;
             color: #d81b60;
         }
         #page1, #page2 {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -24,66 +34,59 @@
             transition: opacity 1s ease-in-out;
         }
         #page2 {
+            display: none;
             opacity: 0;
-            pointer-events: none;
             z-index: 10;
         }
         h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
             z-index: 2;
             margin: 20px;
             padding: 0 15px;
         }
         .btn {
-            padding: 15px 50px;
-            font-size: 1.4rem;
+            padding: 18px 50px;
+            font-size: 1.3rem;
             background-color: #ff4081;
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
-            transition: transform 0.3s, background-color 0.3s;
-            z-index: 2;
-            margin-top: 40px;
+            transition: transform 0.2s;
+            z-index: 5;
             font-weight: bold;
         }
-        .btn:hover {
-            transform: scale(1.1);
-            background-color: #e91e63;
+        .btn:active {
+            transform: scale(0.9);
         }
         .heart {
             position: absolute;
             color: #ff4081;
-            animation: float 5s linear infinite;
+            animation: float linear infinite;
             z-index: 1;
             opacity: 0.6;
             pointer-events: none;
         }
         @keyframes float {
             0% { transform: translateY(110vh) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+            100% { transform: translateY(-15vh) scale(1.5); opacity: 0; }
         }
         .message-box {
             background: rgba(255, 255, 255, 0.9);
-            padding: 35px;
+            padding: 30px;
             border-radius: 25px;
             max-width: 85%;
-            width: 650px;
+            width: 600px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             line-height: 1.8;
-            font-size: 1.3rem;
-            margin: 20px;
-            min-height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 1.2rem;
+            min-height: 350px;
+            text-align: left;
+            border: 2px solid white;
+            position: relative;
         }
-        #typed-text {
-            white-space: pre-wrap;
-        }
-        /* კურსორის ანიმაცია */
         .cursor {
             display: inline-block;
             width: 3px;
@@ -107,43 +110,39 @@
 
     <div id="page2">
         <div class="message-box">
-            <div id="typed-text"></div>
+            <span id="typed-text"></span><span id="cursor-el" class="cursor">|</span>
         </div>
     </div>
 
     <script>
-        const fullText = "ჩემო პატარა პრინცესა, ჩემო გულო, ჩემო სულო, ჩემო ბედნიერებავ ვერ აგიღწერ რა ძლიერ მიყვარხარ. \n\nსიტყვებით ვერ გადმოვცემ როგორი ბედნიერი ვარ შენს გვერდით. მინდა ჩემი ცხოვრების ყოველ წამს შენს გვერდით ვატარებდე, მინდა ყოველი დილა ყოველი ღამე ყოველი დღე ყოველი წუთი წამი თუ საათი შენ მოგიძღვნა. \n\nმინდა ჩემს გვერდით ყველაზე ბედნიერი ქალი იყო. ყველაფერი გამოგვივა ცხოვრება ყველაფერი უზომოთ მიყვარხარ და სულ მალე ჩვენი ბუდე გვექნება ჩვენი ოჯახი და ჩვენი პატარა დრაკონები მიყვარხარ ❤️";
+        const fullText = "ჩემო პატარა პრინცესა ჩემო, ჩემო გულო, ჩემო სულო, ჩემო ბედნიერებავ ვერ აგიღწერ რა ძლიერ მიყვარხარ. \n\nსიტყვებით ვერ გადმოვცემ როგორი ბედნიერი ვარ შენს გვერდით. მინდა ჩემი ცხოვრების ყოველ წამს შენს გვერდით ვატარებდე, მინდა ყოველი დილა ყოველი ღამე ყოველი დღე ყოველი წუთი წამი თ საათი შენ მოგიძღვნა. \n\nმინდა ჩემს გვერდით ყველაზე ბედნიერი ქალი იყო. ყველაფერი გამოგვივა ცხოვრება ყველაფერი უზომოთ მიყვარხარ და სულ მალე ჩვენი ბუდე გვექნება ჩვენი ოჯახი და ჩვენი პატარა დრაკონები მიყვარხარ ❤️";
 
+        // გულების გენერატორი
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
             const heartsArray = ['❤️', '💖', '💗', '💓', '💕'];
             heart.innerText = heartsArray[Math.floor(Math.random() * heartsArray.length)];
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-            heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
+            setTimeout(() => heart.remove(), 6000);
         }
-        setInterval(createHeart, 300);
+        setInterval(createHeart, 400);
 
-        function typeWriter(text, i) {
-            if (i < text.length) {
-                // ტექსტის აკრეფა
-                document.getElementById("typed-text").innerText = text.substring(0, i + 1);
-                // კურსორის დამატება ბოლოში
-                const cursor = document.createElement('span');
-                cursor.className = 'cursor';
-                cursor.innerHTML = '&nbsp;';
-                document.getElementById("typed-text").appendChild(cursor);
+        function typeWriter(i) {
+            if (i < fullText.length) {
+                document.getElementById("typed-text").innerText += fullText.charAt(i);
+                
+                let delay = 100; // სიჩქარე
+                if (fullText.charAt(i) === '.' || fullText.charAt(i) === ',') delay = 400;
+                if (fullText.charAt(i) === '\n') delay = 600;
 
-                setTimeout(function() {
-                    typeWriter(text, i + 1)
-                }, 100); // სიჩქარე ახლა არის 100მს (უფრო ნელი)
+                setTimeout(() => typeWriter(i + 1), delay);
             } else {
-                // ბოლოს კურსორი რომ დარჩეს ან გაქრეს
-                const finalCursor = document.querySelector('.cursor');
-                if(finalCursor) finalCursor.remove();
+                // ბოლოს კურსორი რომ გაქრეს
+                document.getElementById("cursor-el").style.display = "none";
             }
         }
 
@@ -152,41 +151,33 @@
             
             setTimeout(() => {
                 document.getElementById('page1').style.display = 'none';
-                const page2 = document.getElementById('page2');
-                page2.style.opacity = '1';
-                page2.style.pointerEvents = 'auto';
-                
+                const p2 = document.getElementById('page2');
+                p2.style.display = 'flex';
+                setTimeout(() => { p2.style.opacity = '1'; }, 50);
+
                 fireworks();
-                
-                setTimeout(() => {
-                    typeWriter(fullText, 0);
-                }, 800);
+                typeWriter(0);
             }, 1000);
         }
 
         function fireworks() {
-            var end = Date.now() + (7 * 1000); 
-            var colors = ['#ff4081', '#ffffff', '#ff1493'];
-
+            var end = Date.now() + (8 * 1000);
             (function frame() {
                 confetti({
                     particleCount: 3,
                     angle: 60,
                     spread: 55,
-                    origin: { x: 0 },
-                    colors: colors
+                    origin: { x: 0, y: 0.7 },
+                    colors: ['#ff4081', '#ffffff', '#ff1493']
                 });
                 confetti({
                     particleCount: 3,
                     angle: 120,
                     spread: 55,
-                    origin: { x: 1 },
-                    colors: colors
+                    origin: { x: 1, y: 0.7 },
+                    colors: ['#ff4081', '#ffffff', '#ff1493']
                 });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
+                if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
     </script>
