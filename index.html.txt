@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ჩემო პატარა პრინცესა</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ffe4e1);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            color: #d81b60;
+            height: 100vh;
+        }
+        #page1, #page2 {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: opacity 1s ease;
+        }
+        #page2 {
+            display: none;
+            opacity: 0;
+            z-index: 10;
+        }
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
+            z-index: 5;
+            padding: 0 20px;
+        }
+        .btn {
+            padding: 18px 50px;
+            font-size: 1.4rem;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+            z-index: 5;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        .btn:active {
+            transform: scale(0.9);
+        }
+        .heart {
+            position: absolute;
+            color: #ff4081;
+            animation: float linear infinite;
+            z-index: 1;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        @keyframes float {
+            0% { transform: translateY(110vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-15vh) scale(1.5); opacity: 0; }
+        }
+        .message-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 25px;
+            max-width: 80%;
+            width: 600px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            line-height: 1.8;
+            font-size: 1.2rem;
+            min-height: 300px;
+            text-align: left;
+            border: 2px solid white;
+        }
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: #d81b60;
+            margin-left: 3px;
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <div id="page1">
+        <h1>მიყვარხარ ჩემო პატარა პრინცესა ❤️</h1>
+        <button class="btn" onclick="startSurprise()">დააჭირე აქ</button>
+    </div>
+
+    <div id="page2">
+        <div class="message-box">
+            <span id="typed-text"></span><span class="cursor">|</span>
+        </div>
+    </div>
+
+    <script>
+        const fullText = "ჩემო პატარა პრინცესა ჩემო, ჩემო გულო, ჩემო სულო, ჩემო ბედნიერებავ ვერ აგიღწერ რა ძლიერ მიყვარხარ. \n\nსიტყვებით ვერ გადმოვცემ როგორი ბედნიერი ვარ შენს გვერდით. მინდა ჩემი ცხოვრების ყოველ წამს შენს გვერდით ვატარებდე, მინდა ყოველი დილა ყოველი ღამე ყოველი დღე ყოველი წუთი წამი თ საათი შენ მოგიძღვნა. \n\nმინდა ჩემს გვერდით ყველაზე ბედნიერი ქალი იყო. ყველაფერი გამოგვივა ცხოვრება ყველაფერი უზომოთ მიყვარხარ და სულ მალე ჩვენი ბუდე გვექნება ჩვენი ოჯახი და ჩვენი პატარა დრაკონები მიყვარხარ ❤️";
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            const hearts = ['❤️', '💖', '💕', '💗'];
+            heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createHeart, 400);
+
+        function typeWriter(i) {
+            if (i < fullText.length) {
+                document.getElementById("typed-text").innerText += fullText.charAt(i);
+                
+                let delay = 250; // კიდევ უფრო ნელი ბეჭდვა
+                if (fullText.charAt(i) === '.' || fullText.charAt(i) === ',') delay = 800;
+                if (fullText.charAt(i) === '\n') delay = 1000;
+
+                setTimeout(() => typeWriter(i + 1), delay);
+            }
+        }
+
+        function startSurprise() {
+            // პირველი გვერდის დამალვა
+            document.getElementById('page1').style.opacity = '0';
+            
+            setTimeout(() => {
+                document.getElementById('page1').style.display = 'none';
+                
+                // მეორე გვერდის ჩვენება
+                const p2 = document.getElementById('page2');
+                p2.style.display = 'flex';
+                setTimeout(() => { p2.style.opacity = '1'; }, 50);
+
+                // ფეიერვერკების გაშვება
+                fireworks();
+                
+                // ბეჭდვის დაწყება
+                typeWriter(0);
+            }, 1000);
+        }
+
+        function fireworks() {
+            var end = Date.now() + (10 * 1000);
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0, y: 0.6 },
+                    colors: ['#ff4081', '#ffffff']
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1, y: 0.6 },
+                    colors: ['#ff4081', '#ffffff']
+                });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+    </script>
+</body>
+</html>
